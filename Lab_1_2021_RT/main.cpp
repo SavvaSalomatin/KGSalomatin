@@ -58,11 +58,11 @@ void create_scene()
     myScene.geoObjects.push_back(Sfera1);
     //auto Sfera2 = std::make_shared<Sphere>(float3(-2.0f, 6.0f, 2.0f), 1, new IdealMirror(float3(1.0f, 1.00f, 1.0f)));
     //myScene.geoObjects.push_back(Sfera2);
-    auto Sfera3 = std::make_shared<Sphere>(float3(0.0f, 5.0f, 5.0f), 1, new Glass(float3(0.8f, 1.0f, 1.0f) , float(2.0f)));
+    auto Sfera3 = std::make_shared<Sphere>(float3(0.0f, 5.0f, 5.0f), 1, new Diffuse(float3(0.8f, 1.0f, 1.0f)));
     myScene.geoObjects.push_back(Sfera3);
    // auto triangle1 = std::make_shared<Triangle>(float3(10.0f, 3.0f, 1.0f), float3(5.0f, 5.0f, 5.0f), float3(0.0f, 2.0f, 3.0f), new Gloss(float3(0.50f, 1.0f, 0.10f)));
    // myScene.geoObjects.push_back(triangle1);
-    auto sq1 = std::make_shared<Square>(float3(0.0f, 4.0f, -6.0f), float (5.0f), new Gloss(float3(1.0f, 0.0f, 0.0f)));
+    auto sq1 = std::make_shared<Square>(float3(0.0f, 4.0f, -6.0f), float (5.0f), new Glass(float3(1.0f, 0.0f, 0.0f), float(2.0f)));
     myScene.geoObjects.push_back(sq1);
     auto pp1 = std::make_shared<Parallelepiped>(float3(7.0f, 2.0f, 8.0f), float3(2.0f, 8.0f, 7.0f), new Glass(float3(1.0f, 1.0f, 1.0f), float(2.0f)));
     myScene.geoObjects.push_back(pp1);

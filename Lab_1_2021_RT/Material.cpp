@@ -25,7 +25,7 @@ float3 prelom(const float3& v, const float3& normal,  float& prelomcoef)
     float3 N = normal;
     float cosi = dot(v, normal) / (length(v) * length(normal));
     float etai = 1;
-    if (cosi <= 0) {
+    if (cosi > 0) {
         cosi = -cosi;
         float buf = etai;
         etai = prelomcoef;

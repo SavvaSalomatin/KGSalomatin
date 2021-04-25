@@ -65,13 +65,13 @@ float3 SimpleRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<GeoO
 
 float3 WhittedRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<GeoObject>>& objects, const std::vector<std::shared_ptr<LightSource>>& light) {
 	float3 color = float3(1.0f, 0.9f, 0.8f);
-	float3 timeColor = float3(1.0f, 1.0f, 1.0f);
+	float3 timeColor = float3(1.0f, 1.0f, 1.0f);// цвет исходный
 	SurfHit surf;
 	Ray timeRay = ray;
 
 	while (1) {
 		//Найти ближайшее пересечение между лучом ray и объектами сцены
-		color *= timeColor;
+		color *= timeColor;//пижжено
 		float tnear = std::numeric_limits<float>::max();
 
 		int   geoIndex = -1;
@@ -86,7 +86,7 @@ float3 WhittedRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<Geo
 				if (temp.t < tnear)
 				{
 					tnear = temp.t;
-					geoIndex = i;
+					geoIndex = i;//нахуя?
 					surf = temp;
 				}
 			}
@@ -104,7 +104,7 @@ float3 WhittedRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<Geo
 
 		if (dot(timeRay.d, surf.normal) > 0) surf.normal = -surf.normal;
 
-		Ray scattered;
+		Ray scattered;//пересечения
 
 		if (typeid(*surf.m_ptr) != typeid(LightSource))
 		{
@@ -112,7 +112,7 @@ float3 WhittedRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<Geo
 			if ((typeid(*surf.m_ptr).name() == typeid(Diffuse).name()))
 			{
 				timeColor = color/100;
-				float3 time;
+				float3 time;//дальность цвета
 				int countOfLightSourses = 0;
 				for (int i = 0; i < light.size(); i++) {
 					Ray rayIn;
@@ -120,12 +120,11 @@ float3 WhittedRT::TraceRay(const Ray& ray, const std::vector<std::shared_ptr<Geo
 					rayIn.d = normalize(rayIn.o - surf.hitPoint);
 
 
-					Ray shadow(surf.hitPoint + normalize(surf.normal) * 10e-5, rayIn.d);
+					Ray shadow(surf.hitPoint + normalize(surf.normal) * 10e-5, rayIn.d);//соблюдение пропорций(исключение черных пикселей)
 
 					if (!ShadowRay(shadow, objects))	// нет проблем на пути
 					{
 						surf.m_ptr->Scatter(rayIn, surf, time, scattered);
-						float angle = dot(rayIn.d, surf.normal) / (length(rayIn.d) * length(surf.normal));
 						timeColor += time * (light.at(i)->intensity)* (light.at(i)->color) * color;
 						++countOfLightSourses;
 					}
